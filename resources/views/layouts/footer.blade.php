@@ -27,4 +27,5 @@
         </div>
 
     </div>
+    <script src="https://kit.fontawesome.com/4b5829b999.js" crossorigin="anonymous"></script>
   </footer>
