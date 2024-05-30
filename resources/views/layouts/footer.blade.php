@@ -28,4 +28,14 @@
 
     </div>
     <script src="https://kit.fontawesome.com/4b5829b999.js" crossorigin="anonymous"></script>
+       <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+       <!-- Bootstrap Select JS -->
+       <script>
+        document.querySelectorAll('.dropdown-item').forEach(item => {
+            item.addEventListener('click', event => {
+                const dropdownToggle = document.querySelector('.dropdown-toggle');
+                dropdownToggle.textContent = event.target.textContent;
+            });
+        });
+      </script>
   </footer>

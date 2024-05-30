@@ -19,6 +19,7 @@ use App\Http\Controllers\Publisher\AuthController;
 //Publisher Routes
 Route::get('/' , [PublisherController::class , 'index'])->name('dashboard');
 Route::get('/publisher/website' , [PublisherController::class , 'web']);
+Route::post('/publisher/website' , [PublisherController::class , 'store'])->name('website.store');
 Route::get('/publisher/postweb' , [PublisherController::class , 'postweb']);
 
 //Publisher Authentication

@@ -20,22 +20,29 @@
                 <div class="progress-step" data-title="Finished"></div>
             </div>
         </div>
-        <form id="urlForm" class="col-md-10" onsubmit="return goToNextStep(2)">
+        <form action="{{ route('website.store') }}" method="POST">
+        @csrf
+        <div id="step1" class="step col-md-10">
             <h4 class="header text-black">1. Enter the URL</h4>
             <div class="bg-info p-2 text-center rounded text-light">Important: We do not accept link farms, review farms, websites with duplicate or low-quality content.</div>
             <div class="mt-3">
                 <label for="websiteUrl" class="form-label">URL of your website <span class="text-success">*</span></label>
-                <input type="url" class="form-control" id="websiteUrl" placeholder="https://www.publisuites.com">
+                <input type="url" class="form-control" name="url" id="websiteUrl" placeholder="https://www.example.com">
+                <div id="loadingCircle" style="display: none; margin-top: 20px; margin-left: 20px;">
+                    Verifying.... <i class="fas fa-circle-notch fa-spin"></i> <!-- Font Awesome spinner icon -->
+                </div>
             </div>
             <div class="text-end mt-2">
-                <button type="submit" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
+                <button type="button" onclick="validateUrlAndProceed()" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
+                
             </div>
-        </form>
-        <div id="dataStep" class="col-md-10 d-none">
+        </div>
+        <div id="dataStep" class="col-md-10 ">
             <!-- Second step content with dropdowns -->
-            <h4 class="header text-black">2. Complete the data</h4>
+            
             {{-- Dropdowns --}}
-            <form id="dataForm" onsubmit="return goToNextStep(3)">
+            <div id="step2" class="step" style="display: none;">
+                <h4 class="header text-black">2. Complete the data</h4>
                 <!-- Add your four dropdowns here -->
                 <!-- Example: -->
                 <h5>Select your website categories (maximum 3)</h5>
@@ -44,329 +51,90 @@
                           <label for="dropdown1" class="form-label">Your main audience is from (country): *</label>
                           <select  id="dropdown1" name="country" class="form-control">
                             <option value="Afghanistan">Afghanistan</option>
-                            <option value="Åland Islands">Åland Islands</option>
-                            <option value="Albania">Albania</option>
-                            <option value="Algeria">Algeria</option>
-                            <option value="American Samoa">American Samoa</option>
-                            <option value="Andorra">Andorra</option>
-                            <option value="Angola">Angola</option>
-                            <option value="Anguilla">Anguilla</option>
-                            <option value="Antarctica">Antarctica</option>
-                            <option value="Antigua and Barbuda">Antigua and Barbuda</option>
-                            <option value="Argentina">Argentina</option>
-                            <option value="Armenia">Armenia</option>
-                            <option value="Aruba">Aruba</option>
-                            <option value="Australia">Australia</option>
-                            <option value="Austria">Austria</option>
-                            <option value="Azerbaijan">Azerbaijan</option>
-                            <option value="Bahamas">Bahamas</option>
-                            <option value="Bahrain">Bahrain</option>
-                            <option value="Bangladesh">Bangladesh</option>
-                            <option value="Barbados">Barbados</option>
-                            <option value="Belarus">Belarus</option>
-                            <option value="Belgium">Belgium</option>
-                            <option value="Belize">Belize</option>
-                            <option value="Benin">Benin</option>
-                            <option value="Bermuda">Bermuda</option>
-                            <option value="Bhutan">Bhutan</option>
-                            <option value="Bolivia">Bolivia</option>
-                            <option value="Bosnia and Herzegovina">Bosnia and Herzegovina</option>
-                            <option value="Botswana">Botswana</option>
-                            <option value="Bouvet Island">Bouvet Island</option>
-                            <option value="Brazil">Brazil</option>
-                            <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
-                            <option value="Brunei Darussalam">Brunei Darussalam</option>
-                            <option value="Bulgaria">Bulgaria</option>
-                            <option value="Burkina Faso">Burkina Faso</option>
-                            <option value="Burundi">Burundi</option>
-                            <option value="Cambodia">Cambodia</option>
-                            <option value="Cameroon">Cameroon</option>
-                            <option value="Canada">Canada</option>
-                            <option value="Cape Verde">Cape Verde</option>
-                            <option value="Cayman Islands">Cayman Islands</option>
-                            <option value="Central African Republic">Central African Republic</option>
-                            <option value="Chad">Chad</option>
-                            <option value="Chile">Chile</option>
-                            <option value="China">China</option>
-                            <option value="Christmas Island">Christmas Island</option>
-                            <option value="Cocos (Keeling) Islands">Cocos (Keeling) Islands</option>
-                            <option value="Colombia">Colombia</option>
-                            <option value="Comoros">Comoros</option>
-                            <option value="Congo">Congo</option>
-                            <option value="Congo, The Democratic Republic of The">Congo, The Democratic Republic of The</option>
-                            <option value="Cook Islands">Cook Islands</option>
-                            <option value="Costa Rica">Costa Rica</option>
-                            <option value="Cote D'ivoire">Cote D'ivoire</option>
-                            <option value="Croatia">Croatia</option>
-                            <option value="Cuba">Cuba</option>
-                            <option value="Cyprus">Cyprus</option>
-                            <option value="Czech Republic">Czech Republic</option>
-                            <option value="Denmark">Denmark</option>
-                            <option value="Djibouti">Djibouti</option>
-                            <option value="Dominica">Dominica</option>
-                            <option value="Dominican Republic">Dominican Republic</option>
-                            <option value="Ecuador">Ecuador</option>
-                            <option value="Egypt">Egypt</option>
-                            <option value="El Salvador">El Salvador</option>
-                            <option value="Equatorial Guinea">Equatorial Guinea</option>
-                            <option value="Eritrea">Eritrea</option>
-                            <option value="Estonia">Estonia</option>
-                            <option value="Ethiopia">Ethiopia</option>
-                            <option value="Falkland Islands (Malvinas)">Falkland Islands (Malvinas)</option>
-                            <option value="Faroe Islands">Faroe Islands</option>
-                            <option value="Fiji">Fiji</option>
-                            <option value="Finland">Finland</option>
-                            <option value="France">France</option>
-                            <option value="French Guiana">French Guiana</option>
-                            <option value="French Polynesia">French Polynesia</option>
-                            <option value="French Southern Territories">French Southern Territories</option>
-                            <option value="Gabon">Gabon</option>
-                            <option value="Gambia">Gambia</option>
-                            <option value="Georgia">Georgia</option>
-                            <option value="Germany">Germany</option>
-                            <option value="Ghana">Ghana</option>
-                            <option value="Gibraltar">Gibraltar</option>
-                            <option value="Greece">Greece</option>
-                            <option value="Greenland">Greenland</option>
-                            <option value="Grenada">Grenada</option>
-                            <option value="Guadeloupe">Guadeloupe</option>
-                            <option value="Guam">Guam</option>
-                            <option value="Guatemala">Guatemala</option>
-                            <option value="Guernsey">Guernsey</option>
-                            <option value="Guinea">Guinea</option>
-                            <option value="Guinea-bissau">Guinea-bissau</option>
-                            <option value="Guyana">Guyana</option>
-                            <option value="Haiti">Haiti</option>
-                            <option value="Heard Island and Mcdonald Islands">Heard Island and Mcdonald Islands</option>
-                            <option value="Holy See (Vatican City State)">Holy See (Vatican City State)</option>
-                            <option value="Honduras">Honduras</option>
-                            <option value="Hong Kong">Hong Kong</option>
-                            <option value="Hungary">Hungary</option>
-                            <option value="Iceland">Iceland</option>
-                            <option value="India">India</option>
-                            <option value="Indonesia">Indonesia</option>
-                            <option value="Iran, Islamic Republic of">Iran, Islamic Republic of</option>
-                            <option value="Iraq">Iraq</option>
-                            <option value="Ireland">Ireland</option>
-                            <option value="Isle of Man">Isle of Man</option>
-                            <option value="Israel">Israel</option>
-                            <option value="Italy">Italy</option>
-                            <option value="Jamaica">Jamaica</option>
-                            <option value="Japan">Japan</option>
-                            <option value="Jersey">Jersey</option>
-                            <option value="Jordan">Jordan</option>
-                            <option value="Kazakhstan">Kazakhstan</option>
-                            <option value="Kenya">Kenya</option>
-                            <option value="Kiribati">Kiribati</option>
-                            <option value="Korea, Democratic People's Republic of">Korea, Democratic People's Republic of</option>
-                            <option value="Korea, Republic of">Korea, Republic of</option>
-                            <option value="Kuwait">Kuwait</option>
-                            <option value="Kyrgyzstan">Kyrgyzstan</option>
-                            <option value="Lao People's Democratic Republic">Lao People's Democratic Republic</option>
-                            <option value="Latvia">Latvia</option>
-                            <option value="Lebanon">Lebanon</option>
-                            <option value="Lesotho">Lesotho</option>
-                            <option value="Liberia">Liberia</option>
-                            <option value="Libyan Arab Jamahiriya">Libyan Arab Jamahiriya</option>
-                            <option value="Liechtenstein">Liechtenstein</option>
-                            <option value="Lithuania">Lithuania</option>
-                            <option value="Luxembourg">Luxembourg</option>
-                            <option value="Macao">Macao</option>
-                            <option value="Macedonia, The Former Yugoslav Republic of">Macedonia, The Former Yugoslav Republic of</option>
-                            <option value="Madagascar">Madagascar</option>
-                            <option value="Malawi">Malawi</option>
-                            <option value="Malaysia">Malaysia</option>
-                            <option value="Maldives">Maldives</option>
-                            <option value="Mali">Mali</option>
-                            <option value="Malta">Malta</option>
-                            <option value="Marshall Islands">Marshall Islands</option>
-                            <option value="Martinique">Martinique</option>
-                            <option value="Mauritania">Mauritania</option>
-                            <option value="Mauritius">Mauritius</option>
-                            <option value="Mayotte">Mayotte</option>
-                            <option value="Mexico">Mexico</option>
-                            <option value="Micronesia, Federated States of">Micronesia, Federated States of</option>
-                            <option value="Moldova, Republic of">Moldova, Republic of</option>
-                            <option value="Monaco">Monaco</option>
-                            <option value="Mongolia">Mongolia</option>
-                            <option value="Montenegro">Montenegro</option>
-                            <option value="Montserrat">Montserrat</option>
-                            <option value="Morocco">Morocco</option>
-                            <option value="Mozambique">Mozambique</option>
-                            <option value="Myanmar">Myanmar</option>
-                            <option value="Namibia">Namibia</option>
-                            <option value="Nauru">Nauru</option>
-                            <option value="Nepal">Nepal</option>
-                            <option value="Netherlands">Netherlands</option>
-                            <option value="Netherlands Antilles">Netherlands Antilles</option>
-                            <option value="New Caledonia">New Caledonia</option>
-                            <option value="New Zealand">New Zealand</option>
-                            <option value="Nicaragua">Nicaragua</option>
-                            <option value="Niger">Niger</option>
-                            <option value="Nigeria">Nigeria</option>
-                            <option value="Niue">Niue</option>
-                            <option value="Norfolk Island">Norfolk Island</option>
-                            <option value="Northern Mariana Islands">Northern Mariana Islands</option>
-                            <option value="Norway">Norway</option>
-                            <option value="Oman">Oman</option>
-                            <option value="Pakistan">Pakistan</option>
-                            <option value="Palau">Palau</option>
-                            <option value="Palestinian Territory, Occupied">Palestinian Territory, Occupied</option>
-                            <option value="Panama">Panama</option>
-                            <option value="Papua New Guinea">Papua New Guinea</option>
-                            <option value="Paraguay">Paraguay</option>
-                            <option value="Peru">Peru</option>
-                            <option value="Philippines">Philippines</option>
-                            <option value="Pitcairn">Pitcairn</option>
-                            <option value="Poland">Poland</option>
-                            <option value="Portugal">Portugal</option>
-                            <option value="Puerto Rico">Puerto Rico</option>
-                            <option value="Qatar">Qatar</option>
-                            <option value="Reunion">Reunion</option>
-                            <option value="Romania">Romania</option>
-                            <option value="Russian Federation">Russian Federation</option>
-                            <option value="Rwanda">Rwanda</option>
-                            <option value="Saint Helena">Saint Helena</option>
-                            <option value="Saint Kitts and Nevis">Saint Kitts and Nevis</option>
-                            <option value="Saint Lucia">Saint Lucia</option>
-                            <option value="Saint Pierre and Miquelon">Saint Pierre and Miquelon</option>
-                            <option value="Saint Vincent and The Grenadines">Saint Vincent and The Grenadines</option>
-                            <option value="Samoa">Samoa</option>
-                            <option value="San Marino">San Marino</option>
-                            <option value="Sao Tome and Principe">Sao Tome and Principe</option>
-                            <option value="Saudi Arabia">Saudi Arabia</option>
-                            <option value="Senegal">Senegal</option>
-                            <option value="Serbia">Serbia</option>
-                            <option value="Seychelles">Seychelles</option>
-                            <option value="Sierra Leone">Sierra Leone</option>
-                            <option value="Singapore">Singapore</option>
-                            <option value="Slovakia">Slovakia</option>
-                            <option value="Slovenia">Slovenia</option>
-                            <option value="Solomon Islands">Solomon Islands</option>
-                            <option value="Somalia">Somalia</option>
-                            <option value="South Africa">South Africa</option>
-                            <option value="South Georgia and The South Sandwich Islands">South Georgia and The South Sandwich Islands</option>
-                            <option value="Spain">Spain</option>
-                            <option value="Sri Lanka">Sri Lanka</option>
-                            <option value="Sudan">Sudan</option>
-                            <option value="Suriname">Suriname</option>
-                            <option value="Svalbard and Jan Mayen">Svalbard and Jan Mayen</option>
-                            <option value="Swaziland">Swaziland</option>
-                            <option value="Sweden">Sweden</option>
-                            <option value="Switzerland">Switzerland</option>
-                            <option value="Syrian Arab Republic">Syrian Arab Republic</option>
-                            <option value="Taiwan">Taiwan</option>
-                            <option value="Tajikistan">Tajikistan</option>
-                            <option value="Tanzania, United Republic of">Tanzania, United Republic of</option>
-                            <option value="Thailand">Thailand</option>
-                            <option value="Timor-leste">Timor-leste</option>
-                            <option value="Togo">Togo</option>
-                            <option value="Tokelau">Tokelau</option>
-                            <option value="Tonga">Tonga</option>
-                            <option value="Trinidad and Tobago">Trinidad and Tobago</option>
-                            <option value="Tunisia">Tunisia</option>
-                            <option value="Turkey">Turkey</option>
-                            <option value="Turkmenistan">Turkmenistan</option>
-                            <option value="Turks and Caicos Islands">Turks and Caicos Islands</option>
-                            <option value="Tuvalu">Tuvalu</option>
-                            <option value="Uganda">Uganda</option>
-                            <option value="Ukraine">Ukraine</option>
-                            <option value="United Arab Emirates">United Arab Emirates</option>
-                            <option value="United Kingdom">United Kingdom</option>
-                            <option value="United States">United States</option>
-                            <option value="United States Minor Outlying Islands">United States Minor Outlying Islands</option>
-                            <option value="Uruguay">Uruguay</option>
-                            <option value="Uzbekistan">Uzbekistan</option>
-                            <option value="Vanuatu">Vanuatu</option>
-                            <option value="Venezuela">Venezuela</option>
-                            <option value="Viet Nam">Viet Nam</option>
-                            <option value="Virgin Islands, British">Virgin Islands, British</option>
-                            <option value="Virgin Islands, U.S.">Virgin Islands, U.S.</option>
-                            <option value="Wallis and Futuna">Wallis and Futuna</option>
-                            <option value="Western Sahara">Western Sahara</option>
-                            <option value="Yemen">Yemen</option>
+                            
                             <option value="Zambia">Zambia</option>
                             <option value="Zimbabwe">Zimbabwe</option>
                           </select>
                       </div>
                       <div class="col-lg-3">
                           <label for="dropdown1" class="form-label">How many images per post *</label>
-                          <select class="form-select mt-3" id="dropdown1">
-                              <option value="option1">1</option>
-                              <option value="option2">2</option>
-                              <option value="option2">3</option>
-                              <option value="option2">4</option>
-                              <option value="option2">5</option>
+                          <select class="form-select mt-3" name="image_per_post" id="dropdown1">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
                               <!-- Add more options if needed -->
                           </select>
                       </div>
                       <div class="col-lg-3">
                           <label for="dropdown1" class="form-label">Maximum amount of links per post *</label>
-                          <select class="form-select" id="dropdown1">
-                              <option value="option1">1</option>
-                              <option value="option2">2</option>
-                              <option value="option2">3</option>
-                              <option value="option2">4</option>
+                          <select class="form-select" name="maximum_links" id="dropdown1">
+                              <option value="1">1</option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
                               <!-- Add more options if needed -->
                           </select>
                       </div>
                       <div class="col-lg-3">
                           <label for="dropdown1" class="form-label">Type of links admitted *</label>
-                          <select class="form-select mt-3" id="dropdown1">
-                              <option value="option1">Follow</option>
-                              <option value="option2">No Follow</option>
-                              <option value="option2">Sponsored</option>
+                          <select class="form-select mt-3" name="type_of_links[]" id="dropdown1">
+                              <option value="Follow">Follow</option>
+                              <option value="No Follow">No Follow</option>
+                              <option value="Sponsored">Sponsored</option>
                               <!-- Add more options if needed -->
                           </select>
                       </div>
                       <div class="col-lg-3 mt-3" >
                           <label for="dropdown1" class="form-label">Select your website categories (maximum 3) *</label>
-                          <select class="form-select" id="dropdown1">
-                              <option value="option1">Activism and NGOs</option>
-                              <option value="option2">Animals</option>
-                              <option value="option1">Beauty</option>
-                              <option value="option2">Celebrities</option>
-                              <option value="option1">Cinema and TV</option>
-                              <option value="option2">Computer and Programming</option>
-                              <option value="option1">Construction and Renovations</option>
-                              <option value="option2">Cooking, Recipes and Gastronomy</option>
-                              <option value="option1">Curiosities</option>
-                              <option value="option2">Dating</option>
-                              <option value="option1">Decoration and DIY</option>
-                              <option value="option2">Economy</option>
-                              <option value="option1">Education and Formation</option>
-                              <option value="option2">Entrepreneurs and SME</option>
-                              <option value="option1">Erotic and Sex</option>
-                              <option value="option2">Esoteric and Paranormal</option>
-                              <option value="option1">Fashion and Accessories</option>
-                              <option value="option2">Gambling, Casino and Sweepstakes</option>
-                              <option value="option1">Games</option>
-                              <option value="option2">Health</option>
-                              <option value="option1">House and Garden</option>
-                              <option value="option2">Humorous</option>
-                              <option value="option1">Insurances</option>
-                              <option value="option2">Legal</option>
-                              <option value="option1">Leisure</option>
-                              <option value="option2">Lifestyle</option>
-                              <option value="option1">Literature and Culture</option>
-                              <option value="option2">Marketing, SEO and Social Networks</option>
-                              <option value="option1">Miscellaneous</option>
-                              <option value="option2">Mobile Phones and Apps</option>
-                              <option value="option1">Motor, Cars and Motorbikes</option>
-                              <option value="option2">Music and Radio</option>
-                              <option value="option1">Nature and Ecology</option>
-                              <option value="option2">News</option>
-                              <option value="option1">Nutrition</option>
-                              <option value="option2">Parenting and Children</option>
-                              <option value="option1">Photography and Design</option>
-                              <option value="option2">Politics</option>
-                              <option value="option1">Porn / XXX</option>
-                              <option value="option2">Psychology and Coaching</option>
-                              <option value="option1">Religion</option>
-                              <option value="option2">Sports</option>
-                              <option value="option1">Technology</option>
-                              <option value="option2">Travels and Tourism</option>
-                              <option value="option1">Weddings and Couples</option>
+                          <select class="form-select" name="web_categories[]" id="dropdown1" multiple>
+                            <option value="Activism and NGOs">General</option>
+                              <option value="Activism and NGOs">Activism and NGOs</option>
+                              <option value="Animals">Animals</option>
+                              <option value="Beauty">Beauty</option>
+                              <option value="Celebrities">Celebrities</option>
+                              <option value="Cinema and TV">Cinema and TV</option>
+                              <option value="Computer and Programming">Computer and Programming</option>
+                              <option value="Construction and Renovations">Construction and Renovations</option>
+                              <option value="Cooking, Recipes and Gastronomy">Cooking, Recipes and Gastronomy</option>
+                              <option value="Curiosities">Curiosities</option>
+                              <option value="Dating">Dating</option>
+                              <option value="Decoration and DIY">Decoration and DIY</option>
+                              <option value="Economy">Economy</option>
+                              <option value="Education and Formation">Education and Formation</option>
+                              <option value="Entrepreneurs and SME">Entrepreneurs and SME</option>
+                              <option value="Erotic and Sex">Erotic and Sex</option>
+                              <option value="Esoteric and Paranormal">Esoteric and Paranormal</option>
+                              <option value="Fashion and Accessories">Fashion and Accessories</option>
+                              <option value="Gambling, Casino and Sweepstakes">Gambling, Casino and Sweepstakes</option>
+                              <option value="Games">Games</option>
+                              <option value="Health">Health</option>
+                              <option value="House and Garden">House and Garden</option>
+                              <option value="Humorous">Humorous</option>
+                            <option value="Insurances">Insurances</option>
+                            <option value="Legal">Legal</option>
+                            <option value="Leisure">Leisure</option>
+                            <option value="Lifestyle">Lifestyle</option>
+                            <option value="Literature and Culture">Literature and Culture</option>
+                            <option value="Marketing, SEO and Social Networks">Marketing, SEO and Social Networks</option>
+                            <option value="Miscellaneous">Miscellaneous</option>
+                            <option value="Mobile Phones and Apps">Mobile Phones and Apps</option>
+                            <option value="Motor, Cars and Motorbikes">Motor, Cars and Motorbikes</option>
+                            <option value="Music and Radio">Music and Radio</option>
+                            <option value="Nature and Ecology">Nature and Ecology</option>
+                            <option value="News">News</option>
+                            <option value="Nutrition">Nutrition</option>
+                            <option value="Parenting and Children">Parenting and Children</option>
+                            <option value="Photography and Design">Photography and Design</option>
+                            <option value="Politics">Politics</option>
+                            <option value="Porn / XXX">Porn / XXX</option>
+                            <option value="Psychology and Coaching">Psychology and Coaching</option>
+                            <option value="Religion">Religion</option>
+                            <option value="Sports">Sports</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Travels and Tourism">Travels and Tourism</option>
+                            <option value="Weddings and Couples">Weddings and Couples</option>
   
                               <!-- Add more options if needed -->
                           </select>
@@ -374,31 +142,31 @@
   
                       <div class="col-lg-3 mt-3">
                           <label for="dropdown1" class="form-label">Delicated topics you do not accept</label>
-                          <select class="form-select" id="dropdown1">
-                              <option value="option1">Casino</option>
-                              <option value="option2">CBD</option>
-                              <option value="option1">Crypto</option>
-                              <option value="option2">Dating</option>
-                              <option value="option1">Drug</option>
-                              <option value="option2">Escorts</option>
-                              <option value="option1">Gambling</option>
-                              <option value="option2">Growshop</option>
-                              <option value="option1">Curiosities</option>
-                              <option value="option2">Dating</option>
-                              <option value="option1">Decoration and DIY</option>
-                              <option value="option2">Economy</option>
-                              <option value="option1">Education and Formation</option>
-                              <option value="option2">Entrepreneurs and SME</option>
-                              <option value="option1">Erotic and Sex</option>
+                          <select class="form-select" name="delicated_topics[]" id="dropdown1" multiple>
+                            <option value="Casino">Casino</option>
+                            <option value="CBD">CBD</option>
+                            <option value="Crypto">Crypto</option>
+                            <option value="Dating">Dating</option>
+                            <option value="Drug">Drug</option>
+                            <option value="Escorts">Escorts</option>
+                            <option value="Gambling">Gambling</option>
+                            <option value="Growshop">Growshop</option>
+                            <option value="Curiosities">Curiosities</option>
+                            <option value="Dating">Dating</option>
+                            <option value="Decoration and DIY">Decoration and DIY</option>
+                            <option value="Economy">Economy</option>
+                            <option value="Education and Formation">Education and Formation</option>
+                            <option value="Entrepreneurs and SME">Entrepreneurs and SME</option>
+                            <option value="Erotic and Sex">Erotic and Sex</option>
   
                               <!-- Add more options if needed -->
                           </select>
                       </div>
                         <div class="col-lg-3 mt-3">
                         <label for="dropdown1" class="form-label">Sponsorship notification</label>
-                            <select class="form-select mt-3" id="dropdown1">
-                                <option value="option1">Always</option>
-                                <option value="option2">Ony if its noticed</option>
+                            <select class="form-select mt-3" name="sponsor" id="dropdown1">
+                                <option value="Always">Always</option>
+                                <option value="Ony if its noticed">Ony if its noticed</option>
                                 <!-- Add more options if needed -->
                             </select>
                         </div>
@@ -413,7 +181,7 @@
 
                                 <div class="input-group mb-3">
 
-                                    <input type="number" name="price" min="1" step="0.5" class="form-control" value="5" required="">
+                                    <input type="number" min="1" name="normal_price" step="0.5" class="form-control" >
                                     <span class="input-group-text">€</span>
                                 </div>
 
@@ -425,7 +193,7 @@
                                     </div>
                                     <div class="input-group mb-3">
 
-                                        <input type="number" name="topic_price" min="1" step="0.5" class="form-control" value="">
+                                        <input type="number" name="topic_price" min="1" name="delicated_price" step="0.5" class="form-control" value="">
                                         <span class="input-group-text">€</span>
                                     </div>
                                 </div>
@@ -450,7 +218,7 @@
                                                 <div class="input-group-prepend prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">+</span>
                                                 </div>
-                                                <input type="number" class="form-control input-sm" name="800_words">
+                                                <input type="number" name="eight_hundred" class="form-control input-sm">
                                                 <div class="input-group-append  prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">€</span>
                                                 </div>
@@ -464,7 +232,7 @@
                                                 <div class="input-group-prepend prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">+</span>
                                                 </div>
-                                                <input type="number" class="form-control input-sm" name="1000_words">
+                                                <input type="number" name="one_thousand" class="form-control input-sm">
                                                 <div class="input-group-append  prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">€</span>
                                                 </div>
@@ -477,7 +245,7 @@
                                                 <div class="input-group-prepend prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">+</span>
                                                 </div>
-                                                <input type="number" class="form-control input-sm" name="1200_words">
+                                                <input type="number" name="twelve_hundred" class="form-control input-sm">
                                                 <div class="input-group-append  prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">€</span>
                                                 </div>
@@ -493,19 +261,19 @@
                                         <div class="form-row mt-2">
                                             <label class="col-lg-6 text-left col-form-label p-14" style="margin-top: -10px;"><i class="fab fa-facebook"></i> https://www.facebook.com/</label>
                                             <div class="input-group col-lg-6 ">
-                                                <input type="text" class="form-control  input-sm" placeholder="" name="facebook">
+                                                <input type="text" name="facebook" class="form-control  input-sm" placeholder="" >
                                             </div>
                                         </div>
                                         <div class="form-row">
                                             <label class="col-lg-6 text-left col-form-label p-14"><i class="fab fa-twitter"></i> https://twitter.com/</label>
                                             <div class="input-group col-lg-6 ">
-                                                <input type="text" class="form-control  input-sm" placeholder="" name="twitter">
+                                                <input type="text" name="twitter" class="form-control  input-sm" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row mt-2">
                                             <label class="col-lg-6 text-left col-form-label p-14"><i class="fab fa-linkedin"></i> https://www.linkedin.com/</label>
                                             <div class="input-group col-lg-6 ">
-                                                <input type="text" class="form-control  input-sm" placeholder="" name="linkedin">
+                                                <input type="text" name="linkedin" class="form-control  input-sm" placeholder="">
                                             </div>
                                         </div>
                                         <div class="form-row mt-2">
@@ -514,7 +282,7 @@
                                                 <div class="input-group-prepend prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">+</span>
                                                 </div>
-                                                <input type="number" class="form-control  input-sm" name="social_price">
+                                                <input type="number" name="price_per_diffusion" class="form-control  input-sm">
                                                 <div class="input-group-append prepend-append-sm">
                                                     <span class="input-group-text" id="basic-addon2">€</span>
                                                 </div>
@@ -530,15 +298,18 @@
                         </div>
                     </div>
                 <div class="text-end mt-2">
-                    <button type="submit" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
+                    <button type="btn" onclick="goToNextStep(3)" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
                 </div>
-            </form>
+                <button type="submit">Submit</button>
+            </div>
         </div>
         
-        <div id="verifyStep" class="col-md-10 d-none">
+        </form>
+        <div id="verifyStep" class="col-md-10">
             <!-- Third step content with input fields -->
-            <h4 class="header text-black">3. Verify your website</h4>
-            <form id="verifyForm" onsubmit="return goToNextStep(4)">
+            
+            <div id="step3" class="step" style="display: none;">
+                <h4 class="header text-black">3. Verify your website</h4>
                 <div class="wrap animatedP fadeInUpP">
                     <section>
                        
@@ -613,7 +384,7 @@
                     </section>
                 </div>
                 
-            </form>
+            </div>
         </div>
         <div id="finishStep" class="col-md-10 d-none">
             <!-- Fourth step content with input fields -->
@@ -631,31 +402,14 @@
         </div>
     </div>
 
+
     <script>
+        let currentStep = 1;
+    
         function goToNextStep(nextStep) {
-            if (nextStep === 2) {
-                // Hide URL form
-                document.getElementById('urlForm').classList.add('d-none');
-                // Show data step
-                document.getElementById('dataStep').classList.remove('d-none');
-                // Update progress bar
-                document.querySelectorAll('.progress-step')[1].classList.add('progress-step-active');
-            } else if (nextStep === 3) {
-                // Hide data step
-                document.getElementById('dataStep').classList.add('d-none');
-                // Show verify step
-                document.getElementById('verifyStep').classList.remove('d-none');
-                // Update progress bar
-                document.querySelectorAll('.progress-step')[2].classList.add('progress-step-active');
-            } else if (nextStep === 4) {
-                // Hide verify step
-                document.getElementById('verifyStep').classList.add('d-none');
-                // Show finish step
-                document.getElementById('finishStep').classList.remove('d-none');
-                // Update progress bar
-                document.querySelectorAll('.progress-step')[3].classList.add('progress-step-active');
-            }
-            return false; // Prevent form submission
+            document.getElementById('step' + currentStep).style.display = 'none'; // Hide current step
+            document.getElementById('step' + nextStep).style.display = 'block'; // Show next step
+            currentStep = nextStep; // Update current step
         }
     </script>
 @endsection
@@ -665,6 +419,24 @@
 @section('script')
     <script src="{{ URL::asset('build/js/app.js') }}"></script>
 @endsection
+<script>
+    function validateUrlAndProceed() {
+        var urlInput = document.getElementById('websiteUrl').value;
+        if (urlInput.startsWith("https://")) {
+            // Show loading circle
+            document.getElementById('loadingCircle').style.display = "inline-block";
+            // Proceed to next step after some delay (for demonstration purposes)
+            setTimeout(function() {
+                document.getElementById('step2').style.display = "block";
+                document.getElementById('step1').style.display = "none";
+                // Hide loading circle
+                document.getElementById('loadingCircle').style.display = "none";
+            }, 2000); // Change the delay as needed
+        } else {
+            alert("URL must start with 'https://'!");
+        }
+    }
+</script>
 
 <style>
     /* Progressbar */

@@ -11,38 +11,32 @@
 
     </div>
  </div>
- <table style="border-color: rgb(165, 164, 164) !important;" class="table  table-nowrap mt-4  text-white border-bottom border-1 ">
+ <table style="border-color: rgb(29, 17, 17) !important;" class="table  table-nowrap mt-4  text-white border-bottom border-1 ">
     <thead style="background-color: rgb(61, 191, 126);" class="">
         <tr class="text-center" >
             <th  scope="col">URL<i class="ri-arrow-down-fill"></i><i class="ri-barricade-fill"></i></th>
             <th scope="col">Categories</th>
-            <th scope="col">Links <i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">DR <i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">DA <i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">PA<i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">CF <i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">TF <i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">Credit <i class="ri-arrow-up-down-fill"></i></th>
-            <th scope="col">Analytics</th>
+            <th scope="col">Country <i class="ri-arrow-up-down-fill"></i></th>
+            <th scope="col">Images <i class="ri-arrow-up-down-fill"></i></th>
+            <th scope="col">Amount of Links <i class="ri-arrow-up-down-fill"></i></th>
+            <th scope="col">Normal Price<i class="ri-arrow-up-down-fill"></i></th>
+            <th scope="col">Delicated Price <i class="ri-arrow-up-down-fill"></i></th>
             <th scope="col">Status</th>
         </tr>
     </thead>
     <tbody>
-        <tr >
-            <td class="align-middle"></td>
-            <td class="align-middle" ></td>
-            <td class="align-middle" ></td>
-            <td class="align-middle" ></td>
-            <td class="align-middle"></td>
-            <td  class="align-middle  text-center text-dark pb-5">You have not added any website yet.</td>
-            <td class="align-middle"></td>
-            <td class="align-middle"></td>
-            <td class="align-middle"></td>
-            <td class="align-middle"></td>
-            <td class="align-middle"></td>
-
-
+        @foreach($websites as $website)
+        <tr>
+            <td class="align-middle" style="color: black">{{ $website->url }}</td>
+            <td class="align-middle" style="color: black">{{ implode(', ', json_decode($website->web_categories)) }}</td>
+            <td class="align-middle" style="color: black">{{ $website->country }}</td>
+            <td class="align-middle" style="color: black">{{ $website->image_per_post }}</td>
+            <td class="align-middle" style="color: black">{{ $website->maximum_links }}</td>
+            <td class="align-middle" style="color: black">{{ $website->normal_price }}</td>
+            <td class="align-middle" style="color: black">{{ $website->topic_price }}</td>
+            <td class="align-middle" style="color: black"><i class="fas fa-trash"></i></td>
         </tr>
+        @endforeach
     </tbody>
 </table>
 
