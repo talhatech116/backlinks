@@ -1,0 +1,111 @@
+@extends('layouts.master')
+
+@section('content')
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Navigation -->
+            <ul class="nav nav-tabs">
+                <li class="nav-item">
+                    <a class="nav-link active" id="nav-step1-tab" data-bs-toggle="tab" href="#step1">Step 1</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-step2-tab" data-bs-toggle="tab" href="#step2">Step 2</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-step3-tab" data-bs-toggle="tab" href="#step3">Step 3</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="nav-finishStep-tab" data-bs-toggle="tab" href="#finishStep">Finish</a>
+                </li>
+            </ul>
+
+            <!-- Tab content -->
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active" id="step1">
+                    <div class="step col-md-10">
+                        <h4 class="header text-black">1. Enter the URL</h4>
+                        <div class="bg-info p-2 text-center rounded text-light">Important: We do not accept link farms, review farms, websites with duplicate or low-quality content.</div>
+                        <div class="mt-3">
+                            <label for="websiteUrl" class="form-label">URL of your website <span class="text-success">*</span></label>
+                            <input type="url" class="form-control" name="url" id="websiteUrl" placeholder="https://www.example.com">
+                            <div id="loadingCircle" style="display: none; margin-top: 20px; margin-left: 20px;">
+                                Verifying.... <i class="fas fa-circle-notch fa-spin"></i> <!-- Font Awesome spinner icon -->
+                            </div>
+                        </div>
+                        <div class="text-end mt-2">
+                            <button type="button" onclick="validateUrlAndProceed()" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="step2">
+                    <div  class="col-md-10 ">
+                        <!-- Second step content with dropdowns -->
+                        
+                        {{-- Dropdowns --}}
+                        <div  class="step">
+                            <h4 class="header text-black">2. Complete the data</h4>
+                            <!-- Add your four dropdowns here -->
+                            <!-- Example: -->
+                            <h5>Select your website categories (maximum 3)</h5>
+                              
+                            <div class="text-end mt-2">
+                                <button type="btn" onclick="goToNextStep(3)" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
+                            </div>
+                            <button type="submit">Submit</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="step3">
+                    
+                </div>
+                <div class="tab-pane fade" id="finishStep">
+                    <!-- Finish step content -->
+                </div>
+            </div>
+
+            <div class="text-end mt-2">
+                <button type="button" onclick="goToNextStep()" class="btn btn-danger">Next <i class="ri-arrow-right-line fw-bold"></i></button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentStep = 1;
+
+        function goToNextStep() {
+            // Hide current step
+            document.getElementById('step' + currentStep).classList.remove('show', 'active');
+            // Increment current step
+            currentStep++;
+            // Show next step
+            document.getElementById('step' + currentStep).classList.add('show', 'active');
+            // Activate corresponding tab
+            document.getElementById('nav-step' + currentStep + '-tab').classList.add('active');
+        }
+    </script>
+@endsection
+
+@section('script')
+    <script src="{{ URL::asset('build/js/app.js') }}"></script>
+@endsection
+
+
+<script>
+    function validateUrlAndProceed() {
+        var urlInput = document.getElementById('websiteUrl').value;
+        if (urlInput.startsWith("https://")) {
+            // Show loading circle
+            document.getElementById('loadingCircle').style.display = "inline-block";
+            // Proceed to next step after some delay (for demonstration purposes)
+            setTimeout(function() {
+                document.getElementById('step2').style.display = "block";
+                document.getElementById('step1').style.display = "none";
+                // Hide loading circle
+                document.getElementById('loadingCircle').style.display = "none";
+            }, 2000); // Change the delay as needed
+        } else {
+            alert("URL must start with 'https://'!");
+        }
+    }
+</script>

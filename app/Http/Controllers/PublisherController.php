@@ -81,4 +81,20 @@ class PublisherController extends Controller
     public function postweb(){
         return view('publisher.postweb');
     }
+
+    public function delete($id) {
+        try {
+            $website = PublisherWebsite::findOrFail($id);
+            $website->delete();
+            return redirect()->back()->with('success', 'Website deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error deleting website: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Error deleting website.');
+        }
+    }
+
+    public function home(){
+        return view('publisher.index');
+    }
+    
 }

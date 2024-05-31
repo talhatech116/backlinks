@@ -14,7 +14,7 @@
  <table style="border-color: rgb(29, 17, 17) !important;" class="table  table-nowrap mt-4  text-white border-bottom border-1 ">
     <thead style="background-color: rgb(61, 191, 126);" class="">
         <tr class="text-center" >
-            <th  scope="col">URL<i class="ri-arrow-down-fill"></i><i class="ri-barricade-fill"></i></th>
+            <th scope="col">URL<i class="ri-arrow-down-fill"></i><i class="ri-barricade-fill"></i></th>
             <th scope="col">Categories</th>
             <th scope="col">Country <i class="ri-arrow-up-down-fill"></i></th>
             <th scope="col">Images <i class="ri-arrow-up-down-fill"></i></th>
@@ -34,7 +34,16 @@
             <td class="align-middle" style="color: black">{{ $website->maximum_links }}</td>
             <td class="align-middle" style="color: black">{{ $website->normal_price }}</td>
             <td class="align-middle" style="color: black">{{ $website->topic_price }}</td>
-            <td class="align-middle" style="color: black"><i class="fas fa-trash"></i></td>
+            <td class="align-middle" style="color: black">
+                <form action="{{ route('website.delete', $website->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this website?');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger btn-sm">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </form>
+            </td>
+            
         </tr>
         @endforeach
     </tbody>

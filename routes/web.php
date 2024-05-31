@@ -20,7 +20,9 @@ use App\Http\Controllers\Publisher\AuthController;
 Route::get('/' , [PublisherController::class , 'index'])->name('dashboard');
 Route::get('/publisher/website' , [PublisherController::class , 'web']);
 Route::post('/publisher/website' , [PublisherController::class , 'store'])->name('website.store');
+Route::delete('/publisher/website/{id}' , [PublisherController::class , 'delete'])->name('website.delete');
 Route::get('/publisher/postweb' , [PublisherController::class , 'postweb']);
+Route::get('/publisher/index' , [PublisherController::class , 'home']);
 
 //Publisher Authentication
 Route::get('/login' , [AuthController::class , 'login']);
