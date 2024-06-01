@@ -68,8 +68,8 @@ class PublisherController extends Controller
             $publisherWebsite->linkedin = $validatedData['linkedin'];
             $publisherWebsite->price_per_diffusion = $validatedData['price_per_diffusion'];
             $publisherWebsite->save();
-    
-            return redirect()->back()->with('success', 'Website details saved successfully!');
+            return redirect()->route('web')->with('success', 'Website details saved successfully!');
+
         } catch (\Exception $e) {
             Log::error('Error storing website details: ' . $e->getMessage());
 
@@ -86,10 +86,10 @@ class PublisherController extends Controller
         try {
             $website = PublisherWebsite::findOrFail($id);
             $website->delete();
-            return redirect()->back()->with('success', 'Website deleted successfully!');
+            return response()->json(['success' => true]);
         } catch (\Exception $e) {
             Log::error('Error deleting website: ' . $e->getMessage());
-            return redirect()->back()->with('error', 'Error deleting website.');
+            return response()->json(['success' => false, 'error' => 'Error deleting website.']);
         }
     }
 

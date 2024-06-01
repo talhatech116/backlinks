@@ -2,18 +2,21 @@
 
 @section('content')
 
+<!-- Include jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
 <!-- Tables Without Borders -->
- <div class="header-title">
+<div class="header-title">
     <h3 class="text-dark">Website</h3>
     <div class="d-flex float-end mb-2">
-        <a class="btn btn-danger" href=""><i class="mdi mdi-airplane  mdi-flip-right"></i> Turn vocation mode on </a>
-       &nbsp;&nbsp;<a style="background-color: rgb(61, 191, 126);" class="btn text-light btn-success" href="{{ url('/publisher/postweb')}}"><i class="ri-add-line fw-bolder"></i>Add web</a>
-
+        <a class="btn btn-danger" href=""><i class="mdi mdi-airplane mdi-flip-right"></i> Turn vocation mode on </a>
+        &nbsp;&nbsp;<a style="background-color: rgb(61, 191, 126);" class="btn text-light btn-success" href="{{ url('/publisher/postweb')}}"><i class="ri-add-line fw-bolder"></i>Add web</a>
     </div>
- </div>
- <table style="border-color: rgb(29, 17, 17) !important;" class="table  table-nowrap mt-4  text-white border-bottom border-1 ">
+</div>
+
+<table style="border-color: rgb(29, 17, 17) !important;" class="table table-nowrap mt-4 text-white border-bottom border-1">
     <thead style="background-color: rgb(61, 191, 126);" class="">
-        <tr class="text-center" >
+        <tr class="text-center">
             <th scope="col">URL<i class="ri-arrow-down-fill"></i><i class="ri-barricade-fill"></i></th>
             <th scope="col">Categories</th>
             <th scope="col">Country <i class="ri-arrow-up-down-fill"></i></th>
@@ -26,7 +29,7 @@
     </thead>
     <tbody>
         @foreach($websites as $website)
-        <tr>
+        <tr data-website-id="{{ $website->id }}">
             <td class="align-middle" style="color: black">{{ $website->url }}</td>
             <td class="align-middle" style="color: black">{{ implode(', ', json_decode($website->web_categories)) }}</td>
             <td class="align-middle" style="color: black">{{ $website->country }}</td>
@@ -35,22 +38,46 @@
             <td class="align-middle" style="color: black">{{ $website->normal_price }}</td>
             <td class="align-middle" style="color: black">{{ $website->topic_price }}</td>
             <td class="align-middle" style="color: black">
-                <form action="{{ route('website.delete', $website->id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this website?');">
+                <!-- Form for deleting the website -->
+                <form class="delete-website-form" method="POST" action="{{ route('website.delete', $website->id) }}">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm">
-                        <i class="fas fa-trash"></i>
+                        <i class="fas fa-trash-alt"></i>
                     </button>
                 </form>
             </td>
-            
         </tr>
         @endforeach
     </tbody>
 </table>
 
-
-
+<!-- JavaScript for AJAX Delete -->
+<script>
+    $(document).ready(function() {
+        $('.delete-website-form').submit(function(event) {
+            event.preventDefault();
+            var form = $(this);
+            var row = form.closest('tr');
+            
+            $.ajax({
+                url: form.attr('action'),
+                type: 'POST',
+                data: form.serialize(),
+                success: function(response) {
+                    if (response.success) {
+                        row.remove();
+                    } else {
+                        alert('Failed to delete website');
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.error(xhr.responseText);
+                    alert('Error: ' + xhr.responseText);
+                }
+            });
+        });
+    });
+</script>
 
 @endsection
-
