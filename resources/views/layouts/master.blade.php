@@ -44,16 +44,7 @@
 }
     </style>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const element = document.getElementById('choices-multiple-remove-button');
-        const choices = new Choices(element, {
-            removeItemButton: true,
-            shouldSort: false,
-            position: 'bottom',
-        });
-    });
-</script>
+    
 </head>
 
 @section('body')

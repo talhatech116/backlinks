@@ -96,5 +96,25 @@ class PublisherController extends Controller
     public function home(){
         return view('publisher.index');
     }
+
+    public function chat(){
+        return view('publisher.chat');
+    }
+
+    public function pricing(){
+        return view('publisher.pricing');
+    }
+
+    public function transactions(){
+        return view('publisher.transactions');
+    }
+
+    public function billing(){
+        return view('publisher.billing');
+    }
+
+    public function dashboard(){
+        return view('publisher.dashboard');
+    }
     
 }
